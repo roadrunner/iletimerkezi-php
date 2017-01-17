@@ -1,0 +1,23 @@
+{
+    "name": "engin/iletimerkezi-php",
+    "description": "iletimerkezi.com php client library",
+    "type": "library",
+    "require": {
+        "php": "^5.3.2 || ^7.0",
+        "ext-curl": "^0.0.0",
+    },
+    "require-dev": {
+        "symfony/console": "^3.2"
+    },
+    "autoload": {
+        "psr-4": { "Emarka\\Sms\\": "src" }
+    },
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Engin Dumlu",
+            "email": "engindumlu@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,264 @@
+<?php
+
+namespace Emarka\Sms;
+
+class Config
+{
+    protected $scheme         = 'https';
+    protected $domain         = 'api.iletimerkezi.com';
+    protected $apiVersion     = 'v1';
+    protected $apiKey;
+    protected $secret;
+    protected $sender;
+    protected $encoding       = Encoding::ACCOUNT_DEFAULT;
+    protected $countryCode;
+    protected $requestTimeout = 60;
+    protected $localTimezone;
+    protected $debug          = false;
+
+    public function __construct(array $config = [])
+    {
+        foreach ($config as $key => $value) {
+            switch ($key) {
+                case 'scheme':
+                    $this->setScheme($value);
+                    break;
+                case 'domain':
+                    $this->setDomain($value);
+                    break;
+                case 'api_key':
+                case 'apiKey':
+                case 'username':
+                    $this->setApiKey($value);
+                    break;
+                case 'secret':
+                case 'password':
+                    $this->setSecret($value);
+                    break;
+                case 'sender':
+                    $this->setSender($value);
+                    break;
+                case 'encoding':
+                    $this->setEncoding($value);
+                    break;
+                case 'countryCode':
+                case 'country_code':
+                    $this->setCountryCode($value);
+                    break;
+                case 'debug':
+                    $this->debug = (bool) $value;
+                    break;
+                default:
+                    throw new \Exception(sprintf("Invalid parameter %s given.", $key), 1);
+                    break;
+            }
+        }
+    }
+
+    public function getRequestUrl($endpoint)
+    {
+        return sprintf(
+            "%s://%s/%s/%s",
+            $this->getScheme(),
+            $this->getDomain(),
+            $this->getApiVersion(),
+            $endpoint
+        );
+    }
+
+    public function getRequestTimeout()
+    {
+        return $this->requestTimeout;
+    }
+
+    public function getApiVersion()
+    {
+        return $this->apiVersion;
+    }
+
+    /**
+     * Gets the value of scheme.
+     *
+     * @return mixed
+     */
+    public function getScheme()
+    {
+        return $this->scheme;
+    }
+
+    /**
+     * Sets the value of scheme.
+     *
+     * @param mixed $scheme the scheme
+     *
+     * @return self
+     */
+    public function setScheme($scheme)
+    {
+        $this->scheme = $scheme;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of domain.
+     *
+     * @return mixed
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+
+    /**
+     * Sets the value of domain.
+     *
+     * @param mixed $domain the domain
+     *
+     * @return self
+     */
+    public function setDomain($domain)
+    {
+        $this->domain = $domain;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of apiKey.
+     *
+     * @return mixed
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * Sets the value of apiKey.
+     *
+     * @param mixed $apiKey the api key
+     *
+     * @return self
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of secret.
+     *
+     * @return mixed
+     */
+    public function getSecret()
+    {
+        return $this->secret;
+    }
+
+    /**
+     * Sets the value of secret.
+     *
+     * @param mixed $secret the secret
+     *
+     * @return self
+     */
+    public function setSecret($secret)
+    {
+        $this->secret = $secret;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of sender.
+     *
+     * @return mixed
+     */
+    public function getSender()
+    {
+        return $this->sender;
+    }
+
+    /**
+     * Sets the value of sender.
+     *
+     * @param mixed $sender the sender
+     *
+     * @return self
+     */
+    public function setSender($sender)
+    {
+        $this->sender = $sender;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of encoding.
+     *
+     * @return mixed
+     */
+    public function getEncoding($user_encoding = null)
+    {
+        return !empty($user_encoding) ? $user_encoding : $this->encoding;
+    }
+
+    /**
+     * Sets the value of encoding.
+     *
+     * @param mixed $encoding the encoding
+     *
+     * @return self
+     */
+    public function setEncoding($encoding)
+    {
+        $this->encoding = $encoding;
+        return $this;
+    }
+
+
+
+    /**
+     * Gets the value of countryCode.
+     *
+     * @return mixed
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
+    /**
+     * Sets the value of countryCode.
+     *
+     * @param mixed $countryCode the country code
+     *
+     * @return self
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->countryCode = $countryCode;
+
+        return $this;
+    }
+
+
+
+    public function validate()
+    {
+        return true;
+    }
+
+    /**
+     * Gets the value of debug.
+     *
+     * @return mixed
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+}
