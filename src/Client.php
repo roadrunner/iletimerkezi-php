@@ -41,9 +41,9 @@ class Client
     {
         $result = $this->_executeRequestAndReturn('get-balance', [], 'balance');
         if (!$result) {
-            $result = ['amount' => 0, 'sms' => 0];
+            return new AccountBalance(0, 0);
         }
-        return new AccountBalance($result['amount'], $result['sms']);
+        return new AccountBalance($result->amount, $result->sms);
     }
 
     /**
@@ -70,10 +70,10 @@ class Client
     public function originators()
     {
         $result = $this->_executeRequestAndReturn('get-sender', [], 'senders');
-        if (!$result || !isset($result['sender'])) {
+        if (!$result || !isset($result->sender)) {
             return [];
         }
-        return (array) $result['sender'];
+        return (array) $result->sender;
     }
 
     public function settings()
