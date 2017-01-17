@@ -24,7 +24,7 @@ class AccountBalance
         }
     }
 
-    public function getHumanReadable()
+    public function humanReadable()
     {
         return self::TYPE_CASH == $this->getType()
                 ? $this->getCash().' '.$this->getCurrency()
@@ -73,6 +73,6 @@ class AccountBalance
 
     public function __toString()
     {
-        return $this->getHumanReadable();
+        return $this->humanReadable();
     }
 }

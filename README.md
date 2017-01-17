@@ -4,7 +4,7 @@ iletimerkezi.com PHP Client library
 
 ## Road map for v01:
 
-* send messages
+* send sms
 * deal with errors
 * query prev. sended sms reports
 * query account balance
@@ -33,12 +33,12 @@ $client = Client::createClient([
 $client->send('5321112233', 'Hello World'); // this is the most basic usage of sending sms
 ```
 
-- simple with multiple recipient
+- simple, to multiple recipients
 ```php
-$client->send(['5321112233', '5321112234'], 'Hello World'); // same message to multiple recipient 
+$client->send(['5321112233', '5321112234'], 'Hello World'); // same text to multiple recipients
 ```
 
-- multiple recipient with seperated messages
+- multiple recipients each with different text
 ```php
 $client->send(
     [
@@ -48,7 +48,7 @@ $client->send(
     ],  // recipients with messages
     null, //
     [
-        'encoding' => 'unicode', // message encoding
+        'encoding' => 'unicode', // text encoding
     ]
 );
 ```
@@ -58,7 +58,7 @@ $client->send(
 Message encoding: can we any of gsm8 | turkish | unicode. Or leave it off for account default.
 ```php
 $client->send('5321112233', 'Türkçe sms göndermek bu kadar zor olmamalı.', [
-    'encoding' => 'turkish', // message encoding
+    'encoding' => 'turkish', // text encoding
 ]); 
 ```
 
@@ -75,6 +75,36 @@ $client->send('5321112233', 'Authentication verify. Please enter the code: '.mt_
     'sender' => 'OTP Verify', // change the sender
 ]); 
 ```
+
+Tracking id: the order id
+```php
+$tracking_id = $client->send('5321112233', 'Hello World'); // later, you can query delivery status of the messages
+```
+
+Available originators (sender names)
+```php
+$senders = $client->originators();
+print_r($senders);
+```
+Sample output:
+```
+Array
+(
+    [0] => Engin Dumlu
+)
+```
+
+Query current balance of the account
+```php
+$balance = $client->balance();
+echo $balance->humanReadable();
+```
+Sample output:
+```
+973 TL
+```
+
+
 
 ## Open source
 We love getting feedback and contributions from the opensource community
