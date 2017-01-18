@@ -1,15 +1,12 @@
 <?php
 
-namespace Emarka\Sms;
+namespace Emarka\Sms\Response;
 
 class Response
 {
     private $responseRaw;
     private $response;
     private $timestamp;
-
-    private $statusCode;
-    private $statusMessage;
 
     public function __construct($response_raw)
     {
@@ -21,32 +18,41 @@ class Response
     public function isSuccess()
     {
         if (false !== $this->response) {
-            return 200 == $this->getStatusCode();
+            return 200 == $this->statusCode();
         }
         return false;
     }
 
-    public function getStatusCode()
+    public function status()
+    {
+        return ResponseStatus::get($this->statusCode());
+    }
+    public function statusCode()
     {
         return $this->response->status->code;
     }
 
-    public function getStatusMessage()
+    public function statusMessage()
     {
         return $this->response->status->message;
     }
 
-    public function getAttribute($node)
+    public function getChildNode($node)
     {
         if (isset($this->response->$node)) {
-            return is_object($this->response->{$node}) ? $this->response->{$node} : $this->response->{$node};
+            return $this->response->$node;
         }
     }
 
-    public function __call($name, $arguments)
+    public function xpath($xpath_query)
     {
-        if (0 === strpos($name, 'get')) {
-            return $this->getAttribute(strtolower(substr($name, 3)));
-        }
+        return $this->response->xpath($xpath_query);
     }
+
+    // public function __call($name, $arguments)
+    // {
+    //     if (0 === strpos($name, 'get')) {
+    //         return $this->getChildNode(strtolower(substr($name, 3)));
+    //     }
+    // }
 }
