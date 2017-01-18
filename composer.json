@@ -12,6 +12,9 @@
         "psr-4": { "Emarka\\Sms\\": "src" }
     },
     "license": "GPL-3.0",
+    "support": {
+        "issues": "https://github.com/roadrunner/iletimerkezi-php/issues"
+    },
     "authors": [
         {
             "name": "Engin Dumlu",
