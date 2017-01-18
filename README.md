@@ -12,7 +12,7 @@ iletimerkezi.com PHP Client library
 
 ## Examples
 
-### Let's create a client:
+### Let's configure and initialize a client:
 ```php
 <?php
 require_once 'vendor/autoload.php';
@@ -106,7 +106,7 @@ while ($reporter->next()) {
 }
 ```
 ```
-+905321131913 # Message is being sent or waiting for delivery report.
++905321131913 -> TEXT_ENROUTE / Message is being sent or waiting for delivery report.
 ```
 
 
