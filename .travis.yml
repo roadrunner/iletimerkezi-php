@@ -13,6 +13,7 @@ sudo: false
 before_install:
   - composer self-update
   - composer clear-cache
+  - composer update
 
 script:
   ./vendor/bin/phpunit
