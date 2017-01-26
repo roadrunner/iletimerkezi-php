@@ -1,5 +1,6 @@
-# iletimerkezi-php
-iletimerkezi.com PHP Client library
+# iletimerkezi-php 
+iletimerkezi.com PHP Client library [![Build Status](https://travis-ci.org/roadrunner/iletimerkezi-php.svg?branch=master)](https://travis-ci.org/roadrunner/iletimerkezi-php)
+
 
 
 ## Road map for v01:
