@@ -106,8 +106,10 @@ class Config
      */
     public function setScheme($scheme)
     {
+        if (!($scheme == 'http' || $scheme == 'https')) {
+            throw new \Exception('Unsupported protocol scheme');
+        }
         $this->scheme = $scheme;
-
         return $this;
     }
 
@@ -131,7 +133,6 @@ class Config
     public function setDomain($domain)
     {
         $this->domain = $domain;
-
         return $this;
     }
 
@@ -154,8 +155,10 @@ class Config
      */
     public function setApiKey($apiKey)
     {
+        if (!(strlen($apiKey) >= 16 && strlen($apiKey) <= 40)) {
+            throw new \Exception('Api key must be >= 16 and <= 40 characters');
+        }
         $this->apiKey = $apiKey;
-
         return $this;
     }
 
@@ -164,7 +167,7 @@ class Config
      *
      * @return mixed
      */
-    public function getSecret()
+    private function getSecret()
     {
         return $this->secret;
     }
@@ -178,9 +181,16 @@ class Config
      */
     public function setSecret($secret)
     {
+        if (!(strlen($secret) >= 40 && strlen($secret) <= 120)) {
+            throw new \Exception('Api secret must be >= 40 and <= 120 characters');
+        }
         $this->secret = $secret;
-
         return $this;
+    }
+
+    public function getSecretHmac()
+    {
+        return hash_hmac('sha256', $this->getApiKey(), $this->getSecret());
     }
 
     /**
@@ -202,8 +212,17 @@ class Config
      */
     public function setSender($sender)
     {
+        if (empty($sender)) {
+            $this->sender = null;
+            return $this;
+        }
+        if (strlen($sender) > 11) {
+            throw new \Exception('Sender name can\t be longer than 11 characters.');
+        }
+        if (preg_match('/^[\d\s]+$/', $sender)) {
+            throw new \Exception('Sender must include alpha-numeric character.');
+        }
         $this->sender = $sender;
-
         return $this;
     }
 
@@ -252,7 +271,6 @@ class Config
     public function setCountryCode($countryCode)
     {
         $this->countryCode = $countryCode;
-
         return $this;
     }
 
@@ -285,7 +303,7 @@ class Config
 
     public function getApiDateWithTimezoneOffset($apiDate)
     {
-        $res = $apiDate.' GMT'.($this->apiTimezoneOffset > 0 ? '+' : '').$this->apiTimezoneOffset;
+        return $apiDate.' GMT'.($this->apiTimezoneOffset > 0 ? '+' : '').$this->apiTimezoneOffset;
     }
     /**
      * Sets the value of apiTimezone.
@@ -343,8 +361,7 @@ class Config
      */
     protected function setTimeout($timeout)
     {
-        $this->timeout = $timeout;
-
+        $this->timeout = (bool) $timeout;
         return $this;
     }
 }

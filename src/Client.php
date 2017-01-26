@@ -267,7 +267,7 @@ XML;
         return sprintf(
             "\t<authentication>\n\t\t<key>%s</key>\n\t\t<hash>%s</hash>\n\t</authentication>",
             htmlspecialchars($this->config->getApiKey(), \ENT_XML1),
-            htmlspecialchars(hash_hmac('sha256', $this->config->getApiKey(), $this->config->getSecret()), \ENT_XML1)
+            htmlspecialchars($this->config->getSecretHmac(), \ENT_XML1)
         );
     }
 
